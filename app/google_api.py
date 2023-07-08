@@ -1,3 +1,4 @@
+#just figuring out how ts works 
 import requests
 from flask import Flask, request, jsonify
 
