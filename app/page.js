@@ -33,12 +33,12 @@ export default function Home() {
           className={styles.logo}
           src="/lebron.jpg"
           alt="Next.js Logo"
-          width={auto}
-          height={auto}
+          width={300}
+          height={400}
           priority
         />
       </div>
-    
+
       <div className={styles.grid}>
         <a
           href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
