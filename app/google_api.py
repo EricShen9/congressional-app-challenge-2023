@@ -1,44 +1,44 @@
 import requests
-import json
+from flask import Flask, request, jsonify
 
-address = "1523 Beacon St Waban MA"
+class Calls:
+    @staticmethod
+    def get_reps(address):
+        params = {
+            "address": address,
+            "key": 'AIzaSyDX7fJhgMw6P86Mh1WxprExe2rOdEM5bSU'
+        }
+        response = requests.get('https://www.googleapis.com/civicinfo/v2/representatives', params=params)
+        data = response.json()
+        for office in data['offices']:
+            for official_index in office['officialIndices']:
+                official = data['officials'][official_index]
+                print(office['name'], official['name'])
 
-url = f'https://www.googleapis.com/civicinfo/v2/representatives?address={address}&key=AIzaSyDX7fJhgMw6P86Mh1WxprExe2rOdEM5bSU'
+    @staticmethod
+    def get_voter_info(address):
+        params = {
+            "address": address,
+            "key": 'AIzaSyDX7fJhgMw6P86Mh1WxprExe2rOdEM5bSU'
+        }
+        response = requests.get("https://www.googleapis.com/civicinfo/v2/voterinfo", params=params)
+        response_data = response.json()
+        return response_data
 
-response = requests.get(url)
+    @staticmethod
+    def get_elections():
+        params = {
+            "key": 'AIzaSyDX7fJhgMw6P86Mh1WxprExe2rOdEM5bSU'
+        }
+        response = requests.get("https://www.googleapis.com/civicinfo/v2/elections", params=params)
+        response_data = response.json()
+        return response_data
 
-#print('Status code:', response.status_code)
-
-data = response.json()
-def get_reps():
-    for office in data['offices']:
-        for official_index in office['officialIndices']:
-            official = data['officials'][official_index]
-            print(office['name'], official['name'])
-
-base_url = "https://www.googleapis.com/civicinfo/v2/voterinfo"
-def get_voter_info(address):
-    params = {
-        "address": address,
-        "key": 'AIzaSyDX7fJhgMw6P86Mh1WxprExe2rOdEM5bSU'
-    }
-
-    response = requests.get(base_url, params=params)
-    response_data = response.json()
-    return response_data
-
-voter_info = get_voter_info(address)
+#testing
+abc = Calls()
+voter_info = abc.get_voter_info("1523 Beacon St Waban MA")
+zz = abc.get_reps("1523 Beacon St Waban MA")
+print(zz) 
 print(voter_info)
+print(abc.get_elections())
 
-z = "https://www.googleapis.com/civicinfo/v2/elections"
-
-def get_elections():
-    params = {
-        "key" : 'AIzaSyDX7fJhgMw6P86Mh1WxprExe2rOdEM5bSU'
-    }
-    response = requests.get(z, params = params)
-    abc = response.json()
-    return abc
-
-
-print(get_elections())
